@@ -1,3 +1,4 @@
+//6830300011
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -17,6 +18,10 @@ int Top(Stack S);
 int IsEmpty(Stack S);
 void MakeEmpty(Stack s);
 
+int IsEmpty(Stack S){
+    return S->next == NULL; //return เงื่อนไขว่า 0 หรือ 1
+}
+
 Stack CreateStack(void){
     Stack S = new struct Node;
     if (S == NULL){
@@ -33,20 +38,17 @@ void Push(int x, Stack S){
         cout << "Out Of Space!!"<< endl;
     }
     TmpCell->value = x;
-    TmpCell = S->next;
+    TmpCell->next = S->next;
     S->next = TmpCell;
 }
 
-int IsEmpty(Stack S){
-    return S->next == NULL; //return เงื่อนไขว่า 0 หรือ 1
-}
 
 
 void Pop(Stack S){
     Stack FirstCell = new struct Node;
 
     if (IsEmpty(S)){
-        cout << "Empty Stack!" << endl;
+        cout << "stack underflow" << endl;
     }else{
         FirstCell = S->next;
         S->next = S->next->next;
@@ -69,7 +71,7 @@ int Top(Stack S){
         return S->next->value;
     }else{
         cout << "Empty Stack!";
-        return;
+        return 0;
     }
 }
 
@@ -103,13 +105,22 @@ int main(){
                     getchar();
                     getchar();
                     break;
-            case 2: cout << "Top = " << Top(S);
-                    Pop(S);
-                    cout << "Pop success!";
+                    
+            case 2: 
+                    if (!IsEmpty(S)){ //ถ้าไม่ว่าง
+                        cout << "Top = " << Top(S) << endl;
+                        Pop(S);
+                        cout << "Pop success!";
+                    }else{
+                        Pop(S);
+                    }
                     getchar();
                     getchar();
                     break;
-            case 3: cout << "Top = " << Top(S);
+            case 3: if (!IsEmpty(S)) cout << "Top = " << Top(S) << endl;
+                    else Top(S);
+                    getchar();
+                    getchar();
                     break;
             case 4: break;
         }

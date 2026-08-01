@@ -2,8 +2,6 @@
 #include <iostream>
 using namespace std;
 
-//queue = linked list ที่ insert ฝั่งขวาสุด/ delete ซ้ายสุด
-//data เรียงตามคิว
 struct record{
     int value;
     struct record *next;
@@ -13,33 +11,26 @@ typedef struct record *Queue;
 Queue front = NULL;
 Queue rear = NULL;
 
-//enqueue
+//fxs
+void Enqueue(int x);
+void Dequeue();
+int IsEmpty();
+
+
 void Enqueue(int x){
     if (front == NULL){
+        //ตัวแรก
         front = new struct record;
         front->value = x;
         front->next = NULL;
         rear = front;
-        rear->next = NULL;
-    }
-    else{
+        rear->next = front;
+    }else{
         Queue node = new struct record;
         node->value = x;
-        node->next = NULL;
         rear->next = node;
         rear = node;
-    }
-}
-
-//dequeue
-void Dequeue(){
-    if (front == NULL){
-        cout << "Empty Queue" << endl;
-    }
-    else{
-        Queue tmp = front;
-        front = front->next;
-        delete(tmp);
+        rear->next = front;
     }
 }
 
@@ -47,44 +38,45 @@ int IsEmpty(){
     return front == NULL;
 }
 
-
-void printQueue(){
+void Dequeue(){
     if (IsEmpty()){
-        cout << "Empty Queue" << endl;
+        cout << "Empty Queue!" << endl;
     }
     else{
-        Queue p = front;
-        while (p != NULL){
-            cout << p->value << " ";
-            p = p->next;
-        }
+        Queue tmp = front;
+        front = front->next;
+        rear->next = front;
+        delete(tmp);
     }
 }
 
+void PrintQueue(){
+    if (IsEmpty()){
+        cout << "Empty Queue!" << endl;
+    }else{
+        Queue p = front;
+        cout << "Queue: ";
+        do{
+            cout << p->value << " " ;
+            p = p->next;
+        } while (p != front);
+    }
+}
 
 int main(){
-    //int num;
-    //cout << "Insert ID for Queue:";
-    //cin >> num;
-
-    //Enqueue(num);
     Enqueue(10);
     Enqueue(30);
     Enqueue(20);
     Enqueue(10);
 
-    printQueue();
+    PrintQueue();
 
-    cout << "\n" << "Dequeing" << endl;
+    cout << "\n" << "Dequeing 1 queues" << endl;
     Dequeue();
-    printQueue();
+    PrintQueue();
 
-    cout << "\n" << "Dequeing" << endl;
+    cout << "\n" << "Dequeing 2 queues" << endl;
     Dequeue();
     Dequeue();
-    printQueue();
-
-    
+    PrintQueue();
 }
-
-

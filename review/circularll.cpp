@@ -1,6 +1,6 @@
-//linked list
-#include <stdio.h>
+//circular linked list
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 
 struct record{
@@ -8,26 +8,38 @@ struct record{
     struct record *next;
 };
 
-struct record *insert(struct record *head,int x){
-    struct record *p,*node;
-    if(head == NULL){
+struct record *insert(struct record *head, int x){
+    struct record *p, *node;
+    if (head == NULL){
         head = new struct record;
         head->value = x;
-        head->next = NULL;
+        head->next = head;
     }
     else{
         node = new struct record;
         node->value = x;
         p = head;
+
         if (x < head->value){
+            p = head;
+            while (p->next != head){
+                p = p->next;
+            }
+            tail = p;
             node->next = head;
+            tail->next = node;
             head = node;
         }
+        else if (p->next == head){
+            head->next = node;
+            node->next = head;
+        }
         else{
-            while (p!=NULL){
-                if(p->next == NULL){
+            p = head->next;
+            while (p != head){
+                if (p->next == head){
+                    node->next = head;
                     p->next = node;
-                    node->next = NULL;
                     break;
                 }
                 else if(x < p->next->value){
@@ -44,48 +56,42 @@ struct record *insert(struct record *head,int x){
     return head;
 }
 
-struct record *Delete(struct record *head,int x){
+struct record *DeleteNode(struct record *head, int x){
     struct record *p, *tmp;
     if (head == NULL){
-        cout << "Empty List!" << endl;
+        cout << "Empty List!!!" << endl ;
     }
     else{
         if (x == head->value){
             tmp = head;
-            head = head->next;
+            if (head->next != head){
+                head = head->next;
+            }
             delete(tmp);
         }
         else{
             p = head;
-            while (p!=NULL){
-                if (x == p->next->value){
-                    tmp = p->next;
-                    p->next = tmp->next;
-                    delete(tmp);
-                    break;
-                }
-                else{
-                    p = p->next;
+            if (x == p->next->value){
+                tmp = p->next;
+                p->next = tmp->next;
+                delete(tmp);
+            }
+            else{
+                p = head->next;
+                while (p != head){
+                    if (x == p->next->value){
+                        tmp = p->next;
+                        p->next = tmp->next;
+                        delete(tmp);
+                        break;
+                    }
                 }
             }
+            
         }
-    cout << "Delete Successfully!";
     }
-    return head;
-}
 
-void print(struct record *head){
-    struct record *p = head;
-    if (head == NULL){
-        return;
-    }
-    else{
-        cout << "Linked List : ";
-        while (p!=NULL){
-            cout << p->value << " " ;
-            p = p->next;
-        }
-    }
+    return head;
 }
 
 int menu(){
@@ -116,22 +122,21 @@ int main(){
                 getchar();
                 break;
             }
-            case 2:
+            case 2: break;/*:{
             int x;
                 cout << "Select Number to Delete : ";
                 cin >> x;
-                head = Delete(head,x);
+                head = DeleteNode(head,x);
                 getchar();
                 getchar();
                 break;
-            
-            case 3:
-                
-                print(head);
+            }*/
+            case 3:break;
+                /*print(head);
                 getchar();
                 getchar();
-                break;
+                break;*/
             case 4: break;
         }
-    }while(choose != 4);
+    }while(choose!=4);
 }

@@ -60,6 +60,7 @@ void dfs(int u){
     time++;
     d[u] = time;
 
+    //แอดเพื่อนบ้าน
     for (int i = 0; i < deg[u]; i++){
         int v = adj[u][i];
         if (visited[v] == false){
@@ -67,7 +68,6 @@ void dfs(int u){
             dfs(v); //recursive
         }
     }
-
     time++;
     f[u] = time;
 }

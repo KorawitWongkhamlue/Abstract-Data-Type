@@ -44,8 +44,8 @@ void read_input(){
 
         adj[u].push_back(v); //ขาไป ตำแหน่ง 0 ให้ใส่ adj 1
         deg[u]++; //อัพเดท u
-        adj[v].push_back(u); //ขากลับ
-        deg[v]++;
+        //adj[v].push_back(u); //ขากลับ
+        //deg[v]++;
     }
     
 }

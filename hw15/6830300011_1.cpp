@@ -21,7 +21,7 @@ void createRandomFile(){
 
     if (myfile.is_open()){
         for (int i = 0; i < N; i++){
-            int r = (rand() << 15) | rand();
+            int r = ((rand() & 0x7FFF) << 15) | (rand() & 0x7FFF);
             myfile << r % 100000 + 1 << " ";
         }
         myfile.close();
@@ -30,17 +30,18 @@ void createRandomFile(){
     else cout << "Unable to open file\n";
 }
 
-void readFile(){
+bool readFile(){
     ifstream readfile("random.dat");
     if (!readfile.is_open()){
         cout << "Unable to open random.dat (create it with menu 1 first)\n";
-        return;
+        return false;
     }
 
     for (int i = 0; i < N; i++){
         readfile >> a[i];
     }
     readfile.close();
+    return true; //เพิ่มบรรทัดนี้
 }
 
 void writeFile(const char* name){
@@ -266,49 +267,49 @@ int main(){
             createRandomFile();
             break;
         case 2:
-            readFile();
+            if (!readFile()) break;
             selection_sort();
             writeFile("selection.out");
             //
             break;
         case 3:
-            readFile();
+            if (!readFile()) break;
             bubble_sort();
             writeFile("bubble.out");
             //
             break;
         case 4:
-            readFile();
+            if (!readFile()) break;
             insertion_sort();
             writeFile("insertion.out");
             //
             break;
         case 5:
-            readFile();
+            if (!readFile()) break;
             msort(a,tmp,0,N-1);
             writeFile("merge.out");
             //
             break;
         case 6:
-            readFile();
+            if (!readFile()) break;
             quick_sort(0, N - 1);
             writeFile("quick.out");
             //
             break;
         case 7:
-            readFile();
+            if (!readFile()) break;
             heap_sort();
             writeFile("heap.out");
             //
             break;
         case 8:
-            readFile();
+            if (!readFile()) break;
             bucket_sort();
             writeFile("bucket.out");
             //
             break;
         case 9:
-            readFile();
+            if (!readFile()) break;
             radix_sort();
             writeFile("radix.out");
             //
